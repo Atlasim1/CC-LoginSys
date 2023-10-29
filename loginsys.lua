@@ -30,7 +30,7 @@ while loggedin == false do
             os.shutdown()
         elseif (user == u[1]) and (pass == u[2]) then
             term.clear()
-            temr.setCursorPos(1,1)
+            term.setCursorPos(1,1)
             os.pullEvent = old_terminate
             currentuser = u[1]
             shell.run("/rom/programs/shell.lua")
