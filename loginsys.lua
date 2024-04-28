@@ -14,6 +14,12 @@ function titlebar(title) -- Function for invoking a yellow titlebar
     term.setTextColor(colors.white)
     term.setCursorPos(1,2)
 end
+-- Check to see if all settings are correct 
+settings.load()
+if settings.get("SYSTEM.shell") ~= nil then 
+    settings.set("SYSTEM.shell","shell")
+    settings.save()
+end
 
 --- Main Loop
 while loggedin == false do 
