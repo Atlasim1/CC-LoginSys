@@ -49,6 +49,19 @@ local function invokeMenu(menucontents, menutitle) --Function for Invoking a men
     return selectpos
 end
 
+local function getRegistryKey(key, defaultvalue) -- Gets a registry key and defines it if it dosent exist
+    settings.load()
+    if settings.get(key) then 
+        local value = settings.get(key)
+    else 
+        settings.set(key, defaultvalue)
+        local value = settings.get("SYSTEM.shell")
+        settings.save()
+    end
+    return value
+end
+
+
 -- Start of program
 multishell.setTitle(shell.openTab("shell"), "Shell") -- Open default shell
 
@@ -74,8 +87,7 @@ while true do
         shell.switchTab(tabnum) -- switch tab
     -- Logout Item
     elseif menu1 == 3 then 
-        shell.run("startup/loginsys") -- run login
-        os.exit() -- close menu
+        os.reboot()ss
     -- Shutdown Options Item
     elseif menu1 == 4 then  
         shutdownmenu = invokeMenu({"Shutdown", "Reboot", "Back"},"Main Menu > Power Options") -- invoke power options menu

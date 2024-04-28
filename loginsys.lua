@@ -1,7 +1,7 @@
 -- AtlasOS Login System
-
-local users = { {"user1", "user1"}, {"user2", "user2"} } -- Very SecureTM list of users : {username,password}
+local users = { {"user1", "user1"}, {"user2", "user2"} } -- Very SecureTM list of users : {username,password} -- TODO make user loading from file 
 local loggedin = false
+local reg_SYSTEM_shell = nil
 old_terminate = os.pullEvent -- Remove terminate
 os.pullEvent = os.pullEventRaw -- remove terminate (2)
 currentuser = "none"
@@ -16,8 +16,11 @@ function titlebar(title) -- Function for invoking a yellow titlebar
 end
 -- Check to see if all settings are correct 
 settings.load()
-if settings.get("SYSTEM.shell") ~= nil then 
+if settings.get("SYSTEM.shell") then 
+    reg_SYSTEM_shell = settings.get("SYSTEM.shell")
+else 
     settings.set("SYSTEM.shell","shell")
+    reg_SYSTEM_shell = settings.get("SYSTEM.shell")
     settings.save()
 end
 
@@ -40,7 +43,7 @@ while loggedin == false do
             term.setCursorPos(1,1)
             os.pullEvent = old_terminate -- restore ^t Terminate
             currentuser = u[1] -- set current user global (idk if this works i havent tested it yet)
-            shell.run("/rom/programs/shell.lua") -- run shell, need to add setting for detecting os 
+            shell.run(reg_SYSTEM_shell) -- run shell, need to add setting for detecting os 
             -- This runs when logged off ()
             os.pullEvent = os.pullEventRaw 
             currentuser = "none" 
